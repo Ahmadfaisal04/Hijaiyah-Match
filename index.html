@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width,
+user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<style type="text/css">
+body { margin: 0; 
+	   padding: 0; 
+	   background:white;
+	   overflow: hidden;	   
+	   font-family: Verdana, Arial, sans-serif;
+	}
+canvas { display: block;
+		 background-image: url('images/BG.png');
+		 background-size: cover;
+		 border: 3px solid green;
+		} 
+a {
+    color: #fff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+a.button { background: green;
+		 border-radius: 10px;
+		 display: block;
+		 font-size: 15px;
+		 margin: -30% 50% 0 50%;
+		 padding: 10px;
+		 width: 75px; 
+		 text-align: center;
+		 }
+a.button:hover {
+    background: rgb(0, 184, 0);
+    color: #fff;
+    text-decoration: none;
+	}
+#gameUI {
+    height: 80px;
+    position: absolute; 
+    width: 290px;
+}
+</style>
+</head>
+    <body>
+	<canvas id="myCanvas" width="375" height="680"></canvas>
+		<div id="gameUI">
+			<a id="petunjuk" class="button" href="petunjuk.html">Petunjuk</a>
+			<a id="belajar" class="button" href="belajar.html">Belajar</a>
+			<a id="gamePlay" class="button" href="level1.html">Mainkan</a>
+		</div>
+	</body>
+</html>

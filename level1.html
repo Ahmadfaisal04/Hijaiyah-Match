@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Level 1</title>
+  <style>
+     
+      body {
+        margin: 0px;
+        padding: 0px;
+		overflow: hidden;
+      }
+	  #container { 
+	     display: block;			 
+	  }
+
+    #container video {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+    }
+    
+  </style>
+</head>
+<body>
+  <div id="container">
+    <video id="myVideo">
+      <source src="./sound/video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <script>
+    // Mendapatkan elemen video
+    var video = document.getElementById("myVideo");
+
+    // Memulai pemutaran video
+    video.play();
+
+    // Menangani peristiwa saat video selesai diputar
+    video.onended = function() {
+      // Melanjutkan ke level 2 atau melakukan tindakan lain setelah video selesai diputar
+      window.location.href = "level2.html";
+    };
+  </script>
+</body>
+</html>

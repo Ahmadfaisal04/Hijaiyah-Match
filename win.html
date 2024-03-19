@@ -1,0 +1,341 @@
+<html>
+	<head>
+	<meta name="viewport" content="width=device-width,
+	user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<style>
+		body {
+         margin: 0px;
+         padding: 0px;
+        }
+        canvas {
+         border: 2px solid;
+	    }
+        #container {
+         background: url('images/win.png');
+		 background-repeat:no-repeat;
+		 border:  3px solid green;
+         display: inline-block;
+         overflow: hidden;
+        }
+		#buttons {
+         position: absolute;
+        }
+		#buttons > input {
+         padding: 10px;
+         display: block;
+        }
+		a {
+		 color: #fff;
+		 text-decoration: none;
+		 text-align: center;
+		}
+		a:hover {
+		 text-decoration: underline;
+		 text-align: center;
+		}
+		a.button { background: green;
+		 border-radius: 10px;
+		 display: block;
+		 font-size: 15px;
+		 margin: -100% 50% 0 120%;
+		 padding: 10px;
+		 width: 75px; 
+		 }
+		a.button:hover {
+		 background:  rgb(0, 184, 0);
+		 color: #fff;
+		 text-decoration: none;
+		 text-align: center;
+		}
+		</style>
+	</head>
+	
+	<body>
+	<div id="container"></div>
+	<div id="buttons">
+        <a id="gamePlay" class="button" href="level1.html">Play Again</a>
+    </div>
+	<script src="kinetic-v4.5.4.min.js"></script>
+	<script src="buzz.js"></script>
+	<script>
+	var gameSound = new buzz.sound( "win", {
+     formats: [ "ogg", "mp3" ]
+	});
+
+	gameSound.play()
+     .fadeIn()
+     .loop()
+     .bind( "timeupdate", function() {
+       var timer = buzz.toTimer( this.getTime() );
+       document.getElementById( "timer" ).innerHTML = timer;
+    });
+
+		var stage = new Kinetic.Stage({
+		 container: 'container', 
+		 width: 320, 
+		 height: 480});
+		 var layer = new Kinetic.Layer();
+		 stage.add(layer);
+		
+			function kasihCake1() {
+			var gambar = new Image();
+			gambar.src = 'images/cake1.png';
+			gambar.onload = function() {
+				var cake1 = new Kinetic.Image({
+					x: 0,
+					y: 0,
+					offset: [50, 50],
+					image: gambar,
+					width: 40,
+					height: 40
+				});
+				layer.add(cake1);
+				
+				cake1.anim = new Kinetic.Animation(
+				function(frame) {
+					if (frame.time >= 300) {
+						frame.time = 0;
+						rotasinya = Math.round(Math.random() * 50 - 80);
+						gantiY = Math.cos(Math.PI / 180) * 10 + rotasinya;
+						gantiX = Math.sin(Math.PI / 180) * 10 + rotasinya;
+						
+						if (cake1.getX() < 50) { cake1.setX(320); }
+						if (cake1.getX() > 320) { cake1.setX(50); }
+						if (cake1.getY() < 30) { cake1.setY(480); }
+						if (cake1.getY() > 480) { cake1.setY(30); }
+						
+						cake1.setY(cake1.getY() - gantiY);
+						cake1.setX(cake1.getX() + gantiX);
+						
+					}
+				}, layer
+				);
+				cake1.anim.start();
+				cake1.on('mousedown', function() {
+					cake1.anim.stop();
+					cake1.remove();
+					layer.draw();
+				});
+				cake1.on('touchstart', function() {
+					cake1.anim.stop();
+					cake1.remove();
+					layer.draw();
+				});
+			}
+			
+		}
+		kasihCake1();
+		kasihCake1();
+		kasihCake1();
+				
+		function kasihCake2() {
+			var gambar = new Image();
+			gambar.src = 'images/cake2.png';
+			gambar.onload = function() {
+				var cake2 = new Kinetic.Image({
+					x: 0,
+					y: 0,
+					offset: [30, 30],
+					image: gambar,
+					width: 40,
+					height: 40
+				});
+				layer.add(cake2);
+				
+				cake2.anim = new Kinetic.Animation(
+				function(frame) {
+					if (frame.time >= 300) {
+						frame.time = 0;
+						rotasinya = Math.round(Math.random() * 50 - 80);
+						gantiY = Math.cos(Math.PI / 180) * 5 + rotasinya;
+						gantiX = Math.sin(Math.PI / 180) * 5 + rotasinya;
+						
+						if (cake2.getX() < 88) { cake2.setX(320); }
+						if (cake2.getX() > 320) { cake2.setX(88); }
+						if (cake2.getY() < 30) { cake2.setY(480); }
+						if (cake2.getY() > 480) { cake2.setY(30); }
+						
+						cake2.setY(cake2.getY() - gantiY);
+						cake2.setX(cake2.getX() + gantiX);
+					}
+				}, layer
+				);
+				cake2.anim.start();
+				cake2.on('mousedown', function() {
+					cake2.anim.stop();
+					cake2.remove();
+					layer.draw();
+				});
+				cake2.on('touchstart', function() {
+					cake2.anim.stop();
+					cake2.remove();
+					layer.draw();
+				});
+			}
+			
+		}
+		kasihCake2();
+		kasihCake2();
+		
+		function kasihCake3() {
+			var gambar = new Image();
+			gambar.src = 'images/cake3.png';
+			gambar.onload = function() {
+				var cake3 = new Kinetic.Image({
+					x: 0,
+					y: 0,
+					offset: [30, 30],
+					image: gambar,
+					width: 40,
+					height: 40
+				});
+				layer.add(cake3);
+				
+				cake3.anim = new Kinetic.Animation(
+				function(frame) {
+					if (frame.time >= 300) {
+						frame.time = 0;
+						rotasinya = Math.round(Math.random() * 50 - 80);
+						gantiY = Math.cos(Math.PI / 180) * 5 + rotasinya;
+						gantiX = Math.sin(Math.PI / 180) * 5 + rotasinya;
+						
+						if (cake3.getX() < 202) { cake3.setX(320); }
+						if (cake3.getX() > 320) { cake3.setX(202); }
+						if (cake3.getY() < 30) { cake3.setY(480); }
+						if (cake3.getY() > 480) { cake3.setY(30); }
+						
+						cake3.setY(cake3.getY() - gantiY);
+						cake3.setX(cake3.getX() + gantiX);
+										
+					}
+				}, layer
+				);
+				cake3.anim.start();
+				cake3.on('mousedown', function() {
+					cake3.anim.stop();
+					cake3.remove();
+					layer.draw();
+				});
+				cake3.on('touchstart', function() {
+					cake3.anim.stop();
+					cake3.remove();
+					layer.draw();
+				});
+			}
+			
+		}
+		kasihCake3();
+		kasihCake3();
+		
+		function kasihCandy1() {
+			var gambar = new Image();
+			gambar.src = 'images/candy1.png';
+			gambar.onload = function() {
+				var candy1 = new Kinetic.Image({
+					x: 0,
+					y: 0,
+					offset: [30, 30],
+					image: gambar,
+					width: 40,
+					height: 20
+				});
+				layer.add(candy1);
+				
+				candy1.anim = new Kinetic.Animation(
+				function(frame) {
+					if (frame.time >= 300) {
+						frame.time = 0;
+						rotasinya = Math.round(Math.random() * 50 - 80);
+						gantiY = Math.cos(Math.PI / 180) * 5 + rotasinya;
+						gantiX = Math.sin(Math.PI / 180) * 5 + rotasinya;
+						
+						if (candy1.getX() < 164) { candy1.setX(320); }
+						if (candy1.getX() > 320) { candy1.setX(164); }
+						if (candy1.getY() < 30) { candy1.setY(480); }
+						if (candy1.getY() > 480) { candy1.setY(30); }
+						
+						candy1.setY(candy1.getY() - gantiY);
+						candy1.setX(candy1.getX() + gantiX);
+										
+					}
+				}, layer
+				);
+				candy1.anim.start();
+				candy1.on('mousedown', function() {
+					candy1.anim.stop(function() {
+					 if (candy1.getX() > 320);
+					 if (candy1.getY() > 480); 
+					});
+					candy1.remove();
+					layer.draw();
+				});
+				candy1.on('touchstart', function() {
+					candy1.anim.stop();
+					candy1.remove();
+					layer.draw();
+				});
+			}
+			
+		}
+		kasihCandy1();
+		kasihCandy1();
+		kasihCandy1(); 
+		
+		function kasihCandy2() {
+			var gambar = new Image();
+			gambar.src = 'images/candy2.png';
+			gambar.onload = function() {
+				var candy2 = new Kinetic.Image({
+					x: 0,
+					y: 0,
+					offset: [30, 30],
+					image: gambar,
+					width: 40,
+					height: 20
+				});
+				layer.add(candy2);
+				
+				candy2.anim = new Kinetic.Animation(
+				function(frame) {
+					if (frame.time >= 200) {
+						frame.time = 0;
+						rotasi = Math.round(Math.random() * 50 - 80);
+						gantiY = Math.cos(Math.PI / 180) * 5 + rotasi;
+						gantiX = Math.sin(Math.PI / 180) * 5 + rotasi;
+						
+						if (candy2.getX() < 202) { candy2.setX(180); }
+						if (candy2.getX() > 180) { candy2.setX(202); }
+						if (candy2.getY() < 30) { candy2.setY(420); }
+						if (candy2.getY() > 420) { candy2.setY(30); }
+						
+						candy2.setY(candy2.getY() - gantiY);
+						candy2.setX(candy2.getX() + gantiX);
+				
+					}
+				}, layer
+				);
+				candy2.anim.start();
+				candy2.on('mousedown', function() {
+					candy2.anim.stop(function() {
+					 if (candy2.getX() > 320);
+					 if (candy2.getY() > 480); 
+					});
+					candy2.remove();
+					layer.draw();
+				});
+				candy2.on('touchstart', function() {
+					candy2.anim.stop();
+					candy2.remove();
+					layer.draw();
+				});
+			}
+			
+		}
+		kasihCandy2();
+		kasihCandy2(); 
+		kasihCandy2(); 
+</script>
+</body>
+</html>

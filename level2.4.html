@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+  <meta name="viewport" content="width=device-width,
+   user-scalable=no, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+		overflow: hidden;
+      }
+	  #container { 
+	     display: block;	
+       background-image: url('images/bg35.png');
+       height: 480px;
+       width: 100%;
+        background-size: cover;		 
+	  }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+    <script src="kinetic-v4.5.4.min.js"></script>
+	<script src="buzz.js"></script>
+    <script defer="defer">
+	//backsound
+	var gameSound = new buzz.sound( "backsound", {
+     formats: [ "ogg", "mp3" ]
+	});
+
+	gameSound.play()
+     .fadeIn()
+     .loop()
+     .bind( "timeupdate", function() {
+       var timer = buzz.toTimer( this.getTime() );
+       document.getElementById( "timer" ).innerHTML = timer;
+    });
+
+	gameSound.decreaseVolume(5000);
+	
+	buzz.defaults.formats = [ 'ogg', 'mp3' ];
+    buzz.defaults.preload = 'metadata';	
+		
+    var falseSound      = new buzz.sound('salah' ),
+	    loseSound       = new buzz.sound('kalah' ),
+		dragStartSound	= new buzz.sound('gerak' ),
+		alif			= new buzz.sound('sound/1alif' ),
+		ba				= new buzz.sound('sound/2ba' ),
+		ta				= new buzz.sound('sound/3ta' ),
+		tsa				= new buzz.sound('sound/4tsa' ),
+		jim				= new buzz.sound('sound/5jim' ),
+		kha				= new buzz.sound('sound/6kha' ),
+		kho				= new buzz.sound('sound/7kho' ),
+		da				= new buzz.sound('sound/8dal' ),
+		dal				= new buzz.sound('sound/9dzal' ),
+		ro				= new buzz.sound('sound/10ro' ),
+		za				= new buzz.sound('sound/11za' ),
+		sin				= new buzz.sound('sound/12sin' ),
+		syin			= new buzz.sound('sound/13syin' ),
+		shod			= new buzz.sound('sound/14shod' ),
+		dhod			= new buzz.sound('sound/15dhod' ),
+		tho				= new buzz.sound('sound/16tho' ),
+		dhlo			= new buzz.sound('sound/17dhlo' ),
+		ain				= new buzz.sound('sound/18ain' ),
+		ghoin			= new buzz.sound('sound/19ghoin' ),
+		fa				= new buzz.sound('sound/20fa' ),
+		levelup			= new buzz.sound('uplevel' );
+		
+      function loadImages(sources, callback) {
+		var assetDir = 'images/';
+        var images = {};
+        var loadedImages = 0;
+        var numImages = 0;
+        for(var src in sources) {
+          numImages++;
+        }
+        for(var src in sources) {
+          images[src] = new Image();
+          images[src].onload = function() {
+            if(++loadedImages >= numImages) {
+              callback(images);
+            }
+          };
+          images[src].src = assetDir + sources[src];
+        }
+      }
+      function isNearOutline(hijaiyah, outline) {
+        var a = hijaiyah;
+        var o = outline;
+        var ax = a.getX();
+        var ay = a.getY();
+        
+        if(ax > o.x - 20 && ax < o.x + 20 && ay > o.y - 20 && ay < o.y + 20) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      function drawBackground(background, backgroundImg, text, text2) {
+        var canvas = background.getCanvas();
+        var context = background.getContext();
+
+        context.drawImage(backgroundImg, 0, 0);
+        context.font = '15pt Calibri';
+        context.textAlign = 'center';
+        context.fillStyle = 'white';
+        context.fillText(text, background.getStage().getWidth() / 2, 25);
+        context.fillText(text2, background.getStage().getWidth() / 2, 55);
+      }
+      function initStage(images) {
+        var stage = new Kinetic.Stage({
+          container: 'container',
+          width: 320,
+          height: 480
+        });
+        var background = new Kinetic.Layer();
+        var hijaiyahLayer = new Kinetic.Layer();
+        var hijaiyahShapes = [];
+        var score = 0;
+		var move = 0;
+        var text = '';
+		
+        //posisi huruf hijaiyah
+        var hijaiyahs= {
+          alif: {
+            x: 202,
+            y: 40
+          },
+          ba: {
+            x: 240,
+            y: 80
+          },
+          ta: {
+            x: 164,
+            y: 40
+          },
+          tsa: {
+            x: 50,
+            y: 80
+          },
+		  jim: {
+            x: 88,
+            y: 40
+          },
+		  kha: {
+            x: 88,
+            y: 80
+          },
+		  kho: {
+            x: 126,
+            y: 40
+		  },
+		  da: {
+            x: 126,
+            y: 80
+          },
+		  dal: {
+            x: 88,
+            y: 160
+          },
+		  ro: {
+            x: 164,
+            y: 80
+          },
+		  za: {
+            x: 240,
+            y: 120
+		  },
+		  sin: {
+            x: 202,
+            y: 80
+          },
+		  syin: {
+            x: 164,
+            y: 120
+          },
+		  shod: {
+            x: 202,
+            y: 120
+          },
+		  dhod: {
+            x: 50,
+            y: 120
+          },
+		  tho: {
+            x: 126,
+            y: 160
+          },
+		  dhlo: {
+            x: 202,
+            y: 160
+		  },
+		  ain: {
+            x: 164,
+            y: 160
+          },
+		  ghoin: {
+            x: 126,
+            y: 120
+          },
+		  fa: {
+            x: 88,
+            y: 120
+          },
+        };
+
+		var outlines = {
+           alif_dropzone: {
+            x: 202,
+            y: 250
+          },
+          ba_dropzone: {
+            x: 164,
+            y: 250
+          },
+          ta_dropzone: {
+            x: 126,
+            y: 250
+          },
+          tsa_dropzone: {
+            x: 88,
+            y: 250
+          },
+		  jim_dropzone: {
+            x: 240,
+            y: 290
+          },
+		  kha_dropzone: {
+            x: 202,
+            y: 290
+          },
+		  kho_dropzone: {
+            x: 164,
+            y: 290
+          },
+		  da_dropzone: {
+            x: 126,
+            y: 290
+          },
+		  dal_dropzone: {
+            x: 88,
+            y: 290
+          },
+		  ro_dropzone: {
+            x: 50,
+            y: 290
+          },
+		  za_dropzone: {
+            x: 240,
+            y: 330
+		  },
+		  sin_dropzone: {
+            x: 202,
+            y: 330
+          },
+		  syin_dropzone: {
+            x: 164,
+            y: 330
+          },
+		  shod_dropzone: {
+            x: 126,
+            y: 330
+          },
+		  dhod_dropzone: {
+            x: 88,
+            y: 330
+          },
+		  tho_dropzone: {
+            x: 50,
+            y: 330
+          },
+		  dhlo_dropzone: {
+            x: 202,
+            y: 370
+		  },
+		  ain_dropzone: {
+            x: 164,
+            y: 370
+          },
+		  ghoin_dropzone: {
+            x: 126,
+            y: 370
+          },
+		  fa_dropzone: {
+            x: 88,
+            y: 370
+          },
+        };
+        
+        for(var key in hijaiyahs) {
+          (function() {
+            var privKey = key;
+            var hrf = hijaiyahs[key];
+
+            var hijaiyah = new Kinetic.Image({
+              image: images[key],
+              x: hrf.x,
+              y: hrf.y,
+              draggable: true
+            });
+
+            hijaiyah.createImageHitRegion();
+
+            hijaiyah.on('dragstart', function() {
+              this.moveToTop();
+              hijaiyahLayer.draw();
+			  dragStartSound.play(); //suara jika huruf hijaiyah digerakkan
+            });
+            /*
+             * mengecek jika hijaiyah berada pada area yang benar dan 
+             * mengunci dalam area tersebut
+             */
+            hijaiyah.on('dragend', function() {
+              var outline = outlines[privKey + '_dropzone'];
+			  if(!isNearOutline(hijaiyah, outline)) {
+			  falseSound.play();
+			  if(++move >= 8){
+				alert('You loose!');
+				loseSound.play();
+				setTimeout(function() {
+				window.location = 'index.html';
+				}, 3000);
+				}
+			  }
+              else if(!hijaiyah.inRightPlace && isNearOutline(hijaiyah, outline)) {
+                hijaiyah.setPosition(outline.x, outline.y);
+                hijaiyahLayer.draw();
+                hijaiyah.inRightPlace = true;
+								
+				if(++score >= 20) {
+				  levelup.play(); //sound jika menang
+                  var text = 'Berhasil.. Next Level..'
+                  drawBackground(background, images.imglatar, score, text);
+				  setTimeout(function() {
+					window.location = 'level2.5.html';
+                  }, 3000);
+                } else {
+				  var text = '';
+                  drawBackground(background, images.imglatar, score, text);
+				}
+				
+                // disable drag and drop
+                setTimeout(function() {
+				if (privKey=='alif'){alif.play();}
+				  if (privKey=='ba'){ba.play();}
+				  if (privKey=='ta'){ta.play();}
+				  if (privKey=='tsa'){tsa.play();}
+				  if (privKey=='jim'){jim.play();}
+				  if (privKey=='kha'){kha.play();}
+				  if (privKey=='kho'){kho.play();}
+				  if (privKey=='da'){da.play();}
+				  if (privKey=='dal'){dal.play();}
+				  if (privKey=='ro'){ro.play();}
+				  if (privKey=='za'){za.play();}
+				  if (privKey=='sin'){sin.play();}
+				  if (privKey=='syin'){syin.play();}
+				  if (privKey=='shod'){shod.play();}
+				  if (privKey=='dhod'){dhod.play();}
+				  if (privKey=='tho'){tho.play();}
+				  if (privKey=='dhlo'){dhlo.play();}
+				  if (privKey=='ain'){ain.play();}
+				  if (privKey=='ghoin'){ghoin.play();}
+				  if (privKey=='fa'){fa.play();}
+                  hijaiyah.setDraggable(false);		  
+                }, 50);
+              }
+            });
+            
+            hijaiyah.on('mouseover', function() {
+              hijaiyah.setImage(images[privKey + '_bingkai']);
+              hijaiyahLayer.draw();
+              document.body.style.cursor = 'pointer';
+            });
+            
+            hijaiyah.on('mouseout', function() {
+              hijaiyah.setImage(images[privKey]);
+              hijaiyahLayer.draw();
+              document.body.style.cursor = 'default';
+            });
+
+            hijaiyah.on('dragmove', function() {
+              document.body.style.cursor = 'pointer';
+            });
+
+            hijaiyahLayer.add(hijaiyah);
+            hijaiyahShapes.push(hijaiyah);
+          })();
+        }
+      
+        for(var key in outlines) {        
+          (function() {
+            var imageObj = images[key];
+            var out = outlines[key];
+
+            var outline = new Kinetic.Image({
+              image: imageObj,
+              x: out.x,
+              y: out.y
+            });
+
+            hijaiyahLayer.add(outline);
+          })();
+        }
+
+        stage.add(background);
+        stage.add(hijaiyahLayer);
+
+        drawBackground(background, images.imglatar, score, text);
+      }
+
+      var sources = {
+        imglatar: 'bg35.png',
+        alif: '1alif.jpg',
+        alif_bingkai: '1alifDrag.png',
+        alif_dropzone: '1alifDrop.png',
+        ba: '2ba.jpg',
+        ba_bingkai: '2baDrag.png',
+        ba_dropzone: '2baDrop.png',
+        ta: '3ta.jpg',
+        ta_bingkai: '3taDrag.png',
+        ta_dropzone: '3taDrop.png',
+        tsa: '4tsa.jpg',
+        tsa_bingkai: '4tsaDrag.png',
+        tsa_dropzone: '4tsaDrop.png',
+		jim: '5jim.jpg',
+        jim_bingkai: '5jimDrag.png',
+        jim_dropzone: '5jimDrop.png',
+		kha: '6kha.jpg',
+        kha_bingkai: '6khaDrag.png',
+        kha_dropzone: '6khaDrop.png',
+		kho: '7kho.jpg',
+        kho_bingkai: '7khoDrag.png',
+        kho_dropzone: '7khoDrop.png',
+		da: '8da.jpg',
+        da_bingkai: '8daDrag.png',
+        da_dropzone: '8daDrop.png',
+		dal: '9dal.jpg',
+        dal_bingkai: '9dalDrag.png',
+        dal_dropzone: '9dalDrop.png',
+		ro: '10ro.jpg',
+        ro_bingkai: '10roDrag.png',
+        ro_dropzone: '10roDrop.png',
+		za: '11za.jpg',
+        za_bingkai: '11zaDrag.png',
+        za_dropzone: '11zaDrop.png',
+		sin: '12sin.jpg',
+        sin_bingkai: '12sinDrag.png',
+        sin_dropzone: '12sinDrop.png',
+		syin: '13syin.jpg',
+        syin_bingkai: '13syinDrag.png',
+        syin_dropzone: '13syinDrop.png',
+		shod: '14shod.jpg',
+        shod_bingkai: '14shodDrag.png',
+        shod_dropzone: '14shodDrop.png',
+		dhod: '15dhod.jpg',
+        dhod_bingkai: '15dhodDrag.png',
+        dhod_dropzone: '15dhodDrop.png',
+		tho: '16tho.png',
+        tho_bingkai: '16thoDrag.png',
+        tho_dropzone: '16thoDrop.png',
+		dhlo: '17dhlo.png',
+        dhlo_bingkai: '17dhloDrag.png',
+        dhlo_dropzone: '17dhloDrop.png',
+		ain: '18ain.png',
+        ain_bingkai: '18ainDrag.png',
+        ain_dropzone: '18ainDrop.png',
+		ghoin: '19ghoin.png',
+        ghoin_bingkai: '19ghoinDrag.png',
+        ghoin_dropzone: '19ghoinDrop.png',
+		fa: '20fa.png',
+        fa_bingkai: '20faDrag.png',
+        fa_dropzone: '20faDrop.png',
+      };
+	   loadImages(sources, initStage);
+	   
+    </script>
+  </body>
+</html>

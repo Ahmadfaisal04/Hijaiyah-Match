@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<style>
+		canvas{
+			border: solid 2px blue;
+			background: transparent;
+		}
+		</style>
+		
+		<script>
+		window.onload = function(){ 
+		 var canvas = document.getElementById("kanvas");
+		 var context = canvas.getContext("2d");
+		 
+		 var gambar = new Image();
+		 gambar.src = "images/1alif.jpg";
+		 
+		 context.drawImage (gambar, 10, 10);
+		};
+		</script>
+	</head>
+	
+	<body>
+		<center>
+		<canvas id="kanvas" width="320" height="480">
+		</center>
+	</body>
+</html>
